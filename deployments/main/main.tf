@@ -60,17 +60,8 @@ resource "azurerm_key_vault_access_policy" "tf_service_account" {
   secret_permissions = [
     "Get",
     "Set",
-    "Delete"
-  ]
-}
-
-resource "azurerm_key_vault_access_policy" "functions_identity" {
-  key_vault_id = module.functions_key_vault.key_vault_id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = azurerm_user_assigned_identity.fnapp.principal_id
-
-  secret_permissions = [
-    "Get"
+    "Delete",
+    "Purge"
   ]
 }
 

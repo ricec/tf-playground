@@ -13,6 +13,5 @@ variable "private_link_dns_zones" {
 // TODO: Remove this. Replace with BGP?
 variable "firewall_ip_address" {}
 
-variable "managed_identity_id" {}
 variable "webjobs_storage_secret_uri" {}
 variable "storage_account_name" {} 

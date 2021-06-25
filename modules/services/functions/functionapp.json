@@ -15,9 +15,6 @@
         "description": "Location for all resources."
       }
     },
-    "managedIdentityId": {
-      "type": "String"
-    },
     "runtime": {
       "type": "String",
       "defaultValue": "node",

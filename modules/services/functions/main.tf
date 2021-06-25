@@ -26,7 +26,6 @@ resource "azurerm_resource_group_template_deployment" "functionapp" {
   parameters_content = jsonencode({
     "name" = { value = "${var.prefix}-fnapp" },
     "location" = { value = var.location }
-    "managedIdentityId" = { value = var.managed_identity_id }
     "runtime" = { value = "node" }
     "planId" = { value = azurerm_app_service_plan.fn.id }
     "subnetId" = { value = azurerm_subnet.vnet_integration.id }
