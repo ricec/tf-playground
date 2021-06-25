@@ -1,0 +1,106 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "name": {
+      "type": "String",
+      "metadata": {
+        "description": "The name of the function app that you wish to create."
+      }
+    },
+    "location": {
+      "type": "String",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Location for all resources."
+      }
+    },
+    "managedIdentityId": {
+      "type": "String"
+    },
+    "runtime": {
+      "type": "String",
+      "defaultValue": "node",
+      "allowedValues": [
+        "node",
+        "dotnet",
+        "java"
+      ],
+      "metadata": {
+        "description": "The language worker runtime to load in the function app."
+      }
+    },
+    "planId": {
+      "type": "String"
+    },
+    "subnetId": {
+      "type": "String"
+    },
+    "webJobsStorageSecretUri": {
+      "type": "String"
+    },
+    "storageAccountName": {
+      "type": "String"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2021-01-01",
+      "type": "Microsoft.Web/sites",
+      "name": "[parameters('name')]",
+      "location": "[parameters('location')]",
+      "kind": "functionapp",
+      "identity": {
+        "type": "SystemAssigned"
+      },
+      "properties": {
+        "serverFarmId": "[parameters('planId')]",
+        "virtualNetworkSubnetId": "[parameters('subnetId')]",
+        "siteConfig": {
+          "vnetRouteAllEnabled": true,
+          "functionsRuntimeScaleMonitoringEnabled": true,
+          "appSettings": [
+            {
+              "name": "AzureWebJobsStorage",
+              "value": "[concat('@Microsoft.KeyVault(SecretUri=', parameters('webJobsStorageSecretUri'), ')')]"
+            },
+            {
+              "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2019-06-01').keys[0].value)]"
+            },
+            {
+              "name": "FUNCTIONS_WORKER_RUNTIME",
+              "value": "[parameters('runtime')]"
+            },
+            {
+              "name": "WEBSITE_NODE_DEFAULT_VERSION",
+              "value": "~14"
+            },
+            {
+              "name": "FUNCTIONS_EXTENSION_VERSION",
+              "value": "~3"
+            },
+            {
+              "name": "WEBSITE_DNS_SERVER",
+              "value": "168.63.129.16"
+            },
+            {
+              "name": "WEBSITE_CONTENTOVERVNET",
+              "value": "1"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "appId": {
+      "type": "String",
+      "value": "[resourceId('Microsoft.Web/sites', parameters('name'))]"
+    },
+    "identityPrincipalId": {
+      "type": "String",
+      "value": "[reference(resourceId('Microsoft.Web/sites', parameters('name')), '2021-01-01', 'full').identity.principalId]"
+    }
+  }
+}
