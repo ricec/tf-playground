@@ -9,8 +9,7 @@ resource "azurerm_key_vault" "main" {
 
   network_acls {
     bypass         = "AzureServices"
-    //TODO: Change this to Deny. Only set to "Allow" because I need to allow from my home IP (which changes a lot).
-    default_action = "Allow"
+    default_action = "Deny"
   }
 }
 
