@@ -8,6 +8,11 @@ module "functions_storage" {
   private_link_dns_zones     = module.hub_network.private_link_dns_zone_ids
 }
 
+resource "azurerm_storage_share" "function_content" {
+  name                 = "${local.prefix}-fn-content-share"
+  storage_account_name = module.functions_storage.storage_account_name
+}
+
 resource "azurerm_key_vault_secret" "functions_storage_connection_string" {
   name         = "functions-storage"
   value        = "DefaultEndpointsProtocol=https;AccountName=${module.functions_storage.storage_account_name};AccountKey=${module.functions_storage.primary_access_key}"

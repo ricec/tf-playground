@@ -30,6 +30,7 @@ resource "azurerm_resource_group_template_deployment" "functionapp" {
     "planId" = { value = azurerm_app_service_plan.fn.id }
     "subnetId" = { value = azurerm_subnet.vnet_integration.id }
     "storageAccountName" = { value = var.storage_account_name }
+    "storageContentShare" = { value = var.storage_content_share_name }
     "webJobsStorageSecretUri" = { value = var.webjobs_storage_secret_uri }
   })
 }

@@ -28,6 +28,7 @@ module "function" {
   firewall_ip_address        = module.hub_network.firewall_private_ip_address
   webjobs_storage_secret_uri = azurerm_key_vault_secret.functions_storage_connection_string.versionless_id
   storage_account_name       = module.functions_storage.storage_account_name
+  storage_content_share_name = azurerm_storage_share.function_content.name
 }
 
 resource "azurerm_key_vault_access_policy" "functions_identity" {

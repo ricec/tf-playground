@@ -15,3 +15,4 @@ variable "firewall_ip_address" {}
 
 variable "webjobs_storage_secret_uri" {}
 variable "storage_account_name" {} 
+variable "storage_content_share_name" {}
