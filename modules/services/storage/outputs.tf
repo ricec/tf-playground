@@ -43,3 +43,7 @@ output "secondary_access_key" {
     azurerm_private_endpoint.file
   ]
 }
+
+output "primary_blob_host" {
+  value = azurerm_storage_account.main.primary_blob_host
+}

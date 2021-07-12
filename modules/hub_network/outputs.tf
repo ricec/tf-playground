@@ -22,6 +22,7 @@ output "private_link_dns_zone_ids" {
     file = azurerm_private_dns_zone.file_private_link.id
     app_service = azurerm_private_dns_zone.app_service_private_link.id
     key_vault = azurerm_private_dns_zone.key_vault_private_link.id
+    cognitive_services = azurerm_private_dns_zone.cognitive_services_private_link.id
   }
 }
 

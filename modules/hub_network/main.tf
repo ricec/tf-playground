@@ -51,6 +51,11 @@ resource "azurerm_private_dns_zone" "key_vault_private_link" {
   resource_group_name = var.resource_group_name
 }
 
+resource "azurerm_private_dns_zone" "cognitive_services_private_link" {
+  name                = "privatelink.cognitiveservices.azure.com"
+  resource_group_name = var.resource_group_name
+}
+
 resource "null_resource" "dns_zones" {
   triggers = {
     blob = azurerm_private_dns_zone.blob_private_link.name
@@ -59,6 +64,7 @@ resource "null_resource" "dns_zones" {
     file = azurerm_private_dns_zone.file_private_link.name
     app_service = azurerm_private_dns_zone.app_service_private_link.name
     key_vault = azurerm_private_dns_zone.key_vault_private_link.name
+    cognitive_services = azurerm_private_dns_zone.cognitive_services_private_link.name
   }
 }
 
