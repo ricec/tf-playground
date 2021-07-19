@@ -50,8 +50,6 @@ resource "null_resource" "cogsvc_lockdown" {
     command     = "${path.module}/scripts/lockdown_cognitive_account.sh"
     environment = {
       cognitive_account_id = azurerm_cognitive_account.main.id
-      cognitive_account_name = azurerm_cognitive_account.main.name
-      cognitive_account_resource_group = var.resource_group_name
       json_allow_list = jsonencode(var.allowed_fqdns)
     }
   }
